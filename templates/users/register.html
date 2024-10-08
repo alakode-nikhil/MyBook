@@ -1,0 +1,40 @@
+{% extends 'admin/auth_template.html' %}
+{% load static %}
+{% block content %}
+<div class="card mx-auto">
+    <div class="card-body mt-5">
+        {% for msg in messages %}
+        {{msg}}
+        {% endfor %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="first_name" id ="first_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="last_name" id="last_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username" required>
+            </div>
+            <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" required>
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label for="pass" class="form-label">Password</label>
+                <input type="password" class="form-control" name="pass" id="pass" required>
+            </div>
+            <div class="mb-3">
+            <label for="cpass" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" name="cpass" id="cpass" required>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="regAlert()">Register</button>
+        </form>
+    </div> 
+</div>
+{% endblock %}

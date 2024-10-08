@@ -1,0 +1,82 @@
+
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="pagetitle">
+  <h1>Search Book</h1>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'list_book' %}">Home</a></li>
+          <li class="breadcrumb-item active">Search Book</li>
+      </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="row">
+
+  <!-- Left side columns -->
+
+  </div>
+</section>
+{% for msg in messages %}
+{{msg}}
+{% endfor %}
+{% if user.is_authenticated %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Book Name</th>
+                <th scope="col">Author</th>
+                <th scope="col">Book Price</th>
+                <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if object_list %}
+        {% for book in object_list %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{book.title}}</td>
+            <td>{{book.author}}</td>
+            <td>{{book.price}}</td>
+            <td>
+                <a href="{% url 'book_detail' book.pk %}" class="btn btn-primary"> Details</a>
+                <a href="{% url 'update_book' book.pk %}" class="btn btn-success"> Update </a> 
+                <a href="{% url 'delete_book' book.pk %}" class="btn btn-danger"> Delete </a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+{% endif %}
+
+<!--Pagination-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
+      {% for num in paginator.page_range %}
+      <li class="page-item {% if page_obj.number == num %} activate {% endif %}">
+        <a class="page-link" href="?page={{num}}">{{num}}</a></li>
+      {% endfor %}
+      <li class="page-item">
+        {% if page_obj.has_next %}
+        <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav> <!--Pagination End-->
+
+{% endblock %}

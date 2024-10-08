@@ -1,0 +1,37 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="pagetitle">
+    <h1>Create Book</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'list_book' %}">Home</a></li>
+            <li class="breadcrumb-item active">Create Book</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+    <div class="row">
+
+    <!-- Left side columns -->
+  
+    </div>
+</section>
+
+{% for msg in messages %}
+{{msg}}
+{% endfor %}
+
+{% if user.is_authenticated %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p}}
+
+    <input type="submit" value="save" />
+</form>
+{% endif %}
+
+{% endblock %}

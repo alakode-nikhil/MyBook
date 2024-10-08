@@ -1,0 +1,21 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="pagetitle">
+        <h1>Book Details</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'user_list_book' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href = "{% url 'view_cart' %}">Cart</a></li>
+                <li class="breadcrumb-item active">Payment</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    {% if user.is_authenticated %}
+    <div class="input-group">
+        <input type="text" class="form-control" value="Payment Sucessful!" readonly />
+    </div>
+    <a href="{% url 'user_list_book' %}" class="btn btn-primary">Home</a>
+    {% endif %}
+{% endblock %}

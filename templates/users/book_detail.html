@@ -1,0 +1,40 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="pagetitle">
+        <h1>Book Details</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'user_list_book' %}">Home</a></li>
+                <li class="breadcrumb-item active">Book Details</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+
+        <!-- Left side columns -->
+      
+        </div>
+    </section>
+    {% if user.is_authenticated %}
+    <div class="card" style="width: 20rem;">
+        <img src="{{book.image.url}}" alt="..." class="card-img-top">
+        <div class="class-body">
+            <h3 class="card-text">Name: {{book.title}}</h3>
+            <p class="card-text">Author: {{book.author}}</p>
+            <p class="card-text">Price: {{book.price}}</p>
+            <p class="card-text">Quantity: {{book.quantity}}</p>
+            <form action="{% url 'add_to_cart_from_details' book.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning">
+                  <i class="bi bi-cart"></i> Add to cart
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

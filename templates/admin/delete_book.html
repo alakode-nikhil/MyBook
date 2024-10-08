@@ -1,0 +1,43 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="pagetitle">
+        <h1>Delete Book</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'list_book' %}">Home</a></li>
+                <li class="breadcrumb-item active">Delete Book</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+
+        <!-- Left side columns -->
+      
+        </div>
+    </section>
+    {% if user.is_authenticated %}
+    <div class="card" style="width: 20rem;">
+        <img src="{{book.image.url}}" alt="..." class="card-img-top">
+        <div class="class-body p-2">
+            <h3 class="card-text">{{book.title}}</h3>
+            <p class="card-text">{{book.author}}</p>
+            <p class="card-text">{{book.price}}</p>
+            <p class="card-text">Are you sure to delete the Book?</p>
+            <form class="container" method="post">
+                {% csrf_token %}
+                <div class="row p-2">
+                    <button class="col me-2 btn btn-danger" type="submit" value="Confirm Delete">Yes</button>
+                    <a href="{% url 'list_book' %}" class="btn btn-success col">No</a>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

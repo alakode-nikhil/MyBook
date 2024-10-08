@@ -1,0 +1,114 @@
+
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="pagetitle m-2">
+  <h1>Book List</h1>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item active"><a href="{% url 'user_list_book' %}">Home</a></li>
+      </ol>
+  </nav>
+</div><!-- End Page Title -->
+{% for msg in messages %}
+{{msg}}
+{% endfor %}
+
+{%if user.is_authenticated %}
+{% if cart_items %}
+<table class="table m-2">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Price</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{item.book.title}}</td>
+            <td>{{item.book.author}}</td>
+            <td>{{item.book.price}}</td>
+            <td>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-1">     
+                            <form action="{% url 'increase_quantity' item.pk %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm">
+                                <i class="bi bi-plus-circle"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="{{item.quantity}}" readonly />
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <form action="{% url 'decrease_quantity' item.pk %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm">
+                                <i class="bi bi-dash-circle"></i>
+                                </button>
+                            </form>
+                        </div> 
+                        <div class="col">
+                            <form action="{% url 'remove_item' item.pk %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Remove Item</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th scope="col">Total Price</th>
+            <td>{{total_price}}</td>
+        </tr>
+    </tbody>
+</table>
+<form action="{% url 'create_checkout_session' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Checkout</button>
+</form>
+{% else %}
+<div class="input-group">
+    <input type="text" class="form-control" value="Empty Cart" readonly />
+</div>
+{% endif %}
+{% endif %}
+
+<!--Pagination-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
+      {% for num in paginator.page_range %}
+      <li class="page-item {% if page_obj.number == num %} activate {% endif %}">
+        <a class="page-link" href="?page={{num}}">{{num}}</a></li>
+      {% endfor %}
+      <li class="page-item">
+        {% if page_obj.has_next %}
+        <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+</nav> <!--Pagination End-->
+
+{% endblock %}
